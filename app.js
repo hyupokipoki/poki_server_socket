@@ -34,7 +34,8 @@ app.all('/*', function(req, res, next) {
 
 // localhost:3000서버에 접속하면 클라이언트로 메세지을 전송한다
 app.get('/', function(req, res) {
-  res.sendFile('Hellow Chating App Server');
+//   res.sendFile('Hellow Chating App Server');
+
 });
 
 io.on('connection', function(socket){
@@ -43,15 +44,14 @@ io.on('connection', function(socket){
   socket.on('chat', function(data) {
     console.log('Message from %s: %s', data.name, data.msg);
 
+    // data.msg로 결과값을 만들어서 msg에 지정해서 보내주면 될 듯!
     var msg = {
-      from: {
-        name: data.name,
-      },
-      msg: data.msg
-    };
-
-    // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
-    socket.broadcast.emit('chat', msg);
+        from: {
+          name: 'poki',
+        },
+        msg: 'hello'
+      };
+    socket.emit('chat', msg);
   });
 
   socket.on('disconnect', function() {
